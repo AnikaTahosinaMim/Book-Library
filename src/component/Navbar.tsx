@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Menu, X, BookOpen, Search,  } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { Menu, X, BookOpen, Search } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -16,9 +17,11 @@ const navLinks = [
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathaName = usePathname();
+  const router = useRouter();
 
-  // Demo Auth State
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  // Real auth session (replaces the old demo isLoggedIn state)
+  const { data: session, isPending } = authClient.useSession();
+  const isLoggedIn = !!session?.user;
 
   // Avatar Dropdown
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
@@ -40,6 +43,17 @@ export default function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleLogout = async () => {
+    await authClient.signOut();
+    setShowDropdown(false);
+    router.push("/login");
+    router.refresh();
+  };
+
+  const userName = session?.user?.name || "Account";
+  const userEmail = session?.user?.email || "";
+  const userInitial = userName.charAt(0).toUpperCase();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#14110d]/80 backdrop-blur-md">
@@ -81,7 +95,6 @@ export default function Navbar() {
         {/* Right Side */}
         <div className="hidden items-center gap-4 lg:flex">
           {/* Search */}
-
           <div className="relative">
             <Search
               size={18}
@@ -96,8 +109,9 @@ export default function Navbar() {
           </div>
 
           {/* Auth */}
-
-          {!isLoggedIn ? (
+          {isPending ? (
+            <div className="h-11 w-11 animate-pulse rounded-full bg-white/10" />
+          ) : !isLoggedIn ? (
             <div className="flex gap-3">
               <Link
                 href="/login"
@@ -107,67 +121,65 @@ export default function Navbar() {
               </Link>
 
               <Link
-                href="/register"
+                href="/signup"
                 className="rounded-lg bg-[#d9a441] px-4 py-2 font-medium text-black transition hover:bg-[#c8943a]"
               >
                 Register
               </Link>
             </div>
           ) : (
-            <>
-             
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setShowDropdown(!showDropdown)}
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-[#d9a441] text-black font-semibold transition hover:scale-105"
+              >
+                {userInitial}
+              </button>
 
-              <div className="relative" ref={dropdownRef}>
-                <button
-                  onClick={() => setShowDropdown(!showDropdown)}
-                  className="flex h-11 w-11 items-center justify-center rounded-full bg-[#d9a441] text-black font-semibold transition hover:scale-105"
-                >
-                  A
-                </button>
-
-                {showDropdown && (
-                  <div className="absolute right-0 mt-3 w-56 rounded-xl border border-white/10 bg-[#201b15] shadow-2xl">
-                    <div className="border-b border-white/10 p-4">
-                      <h3 className="font-semibold text-white">Anika Mim</h3>
-                      <p className="text-sm text-white/40">anika@gmail.com</p>
-                    </div>
-
-                    <Link
-                      href="/profile"
-                      className="block px-4 py-3 text-white/70 hover:bg-white/5 hover:text-[#d9a441]"
-                    >
-                      My Profile
-                    </Link>
-
-                    <Link
-                      href="/books/add"
-                      className="block px-4 py-3 text-white/70 hover:bg-white/5 hover:text-[#d9a441]"
-                    >
-                      Add Book
-                    </Link>
-
-                    <Link
-                      href="/books/manage"
-                      className="block px-4 py-3 text-white/70 hover:bg-white/5 hover:text-[#d9a441]"
-                    >
-                      Manage Books
-                    </Link>
-
-                    <button
-                      onClick={() => setIsLoggedIn(false)}
-                      className="w-full rounded-b-xl px-4 py-3 text-left text-red-400 hover:bg-red-500/10"
-                    >
-                      Logout
-                    </button>
+              {showDropdown && (
+                <div className="absolute right-0 mt-3 w-56 rounded-xl border border-white/10 bg-[#201b15] shadow-2xl">
+                  <div className="border-b border-white/10 p-4">
+                    <h3 className="font-semibold text-white">{userName}</h3>
+                    <p className="text-sm text-white/40">{userEmail}</p>
                   </div>
-                )}
-              </div>
-            </>
+
+                  <Link
+                    href="/profile"
+                    onClick={() => setShowDropdown(false)}
+                    className="block px-4 py-3 text-white/70 hover:bg-white/5 hover:text-[#d9a441]"
+                  >
+                    My Profile
+                  </Link>
+
+                  <Link
+                    href="/books/add"
+                    onClick={() => setShowDropdown(false)}
+                    className="block px-4 py-3 text-white/70 hover:bg-white/5 hover:text-[#d9a441]"
+                  >
+                    Add Book
+                  </Link>
+
+                  <Link
+                    href="/books/manage"
+                    onClick={() => setShowDropdown(false)}
+                    className="block px-4 py-3 text-white/70 hover:bg-white/5 hover:text-[#d9a441]"
+                  >
+                    Manage Books
+                  </Link>
+
+                  <button
+                    onClick={handleLogout}
+                    className="w-full rounded-b-xl px-4 py-3 text-left text-red-400 hover:bg-red-500/10"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
 
         {/* Mobile Button */}
-
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="text-white lg:hidden"
@@ -177,7 +189,6 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-
       {menuOpen && (
         <div className="border-t border-white/10 bg-[#14110d] lg:hidden">
           <div className="space-y-4 p-5">
@@ -217,13 +228,15 @@ export default function Navbar() {
               <div className="space-y-3">
                 <Link
                   href="/login"
+                  onClick={() => setMenuOpen(false)}
                   className="block rounded-lg border border-[#d9a441]/40 py-2 text-center text-[#d9a441]"
                 >
                   Login
                 </Link>
 
                 <Link
-                  href="/register"
+                  href="/signup"
+                  onClick={() => setMenuOpen(false)}
                   className="block rounded-lg bg-[#d9a441] py-2 text-center text-black"
                 >
                   Register
@@ -233,19 +246,21 @@ export default function Navbar() {
               <div className="space-y-3">
                 <Link
                   href="/books/add"
+                  onClick={() => setMenuOpen(false)}
                   className="block rounded-lg bg-[#d9a441] py-2 text-center text-black"
                 >
                   Add Book
                 </Link>
                 <Link
                   href="/books/manage"
+                  onClick={() => setMenuOpen(false)}
                   className="block rounded-lg bg-white/5 py-2 text-center text-white/70"
                 >
                   Manage Books
                 </Link>
 
                 <button
-                  onClick={() => setIsLoggedIn(false)}
+                  onClick={handleLogout}
                   className="w-full rounded-lg bg-red-500/80 py-2 text-white"
                 >
                   Logout

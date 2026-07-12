@@ -2,7 +2,7 @@
 import { Book } from "@/types/book";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 type Props = {
@@ -11,6 +11,8 @@ type Props = {
 
 const ManageBook = ({ data }: Props) => {
   const [bookData, setBookData] = useState<Book[]>(data);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const handleDelete = async (id: string) => {
     const result = await Swal.fire({
@@ -60,6 +62,20 @@ const ManageBook = ({ data }: Props) => {
       console.error(error);
     }
   };
+  useEffect(() => {
+    const getBooks = async () => {
+      const res = await fetch(
+        `http://localhost:5000/books?page=${page}&limit=3`,
+      );
+
+      const data = await res.json();
+
+      setBookData(data.books);
+      setTotalPages(data.totalPages);
+    };
+
+    getBooks();
+  }, [page]);
 
   return (
     <div
@@ -169,6 +185,37 @@ const ManageBook = ({ data }: Props) => {
           </div>
         </div>
       ))}
+      <div className="flex justify-center items-center gap-2 mt-8 mb-4">
+  <button
+    disabled={page === 1}
+    onClick={() => setPage(page - 1)}
+    className="px-4 py-2 rounded-lg border border-white/10 text-white disabled:opacity-40"
+  >
+    Prev
+  </button>
+
+  {Array.from({ length: totalPages }, (_, index) => (
+    <button
+      key={index}
+      onClick={() => setPage(index + 1)}
+      className={`h-10 w-10 rounded-full ${
+        page === index + 1
+          ? "bg-[#d9a441] text-black"
+          : "bg-white/10 text-white"
+      }`}
+    >
+      {index + 1}
+    </button>
+  ))}
+
+  <button
+    disabled={page === totalPages}
+    onClick={() => setPage(page + 1)}
+    className="px-4 py-2 rounded-lg border border-white/10 text-white disabled:opacity-40"
+  >
+    Next
+  </button>
+</div>
     </div>
   );
 };

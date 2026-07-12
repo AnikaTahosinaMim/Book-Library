@@ -23,7 +23,8 @@ const CategoryPage = async () => {
     cache: "no-store",
   });
 
-  const books: Book[] = await res.json();
+  const data = await res.json();
+  const books: Book[] = Array.isArray(data) ? data : (data.books ?? []);
 
   const categories = [...new Set(books.map((book) => book.category))];
 
@@ -56,7 +57,7 @@ const CategoryPage = async () => {
             };
 
             const totalBooks = books.filter(
-              (book) => book.category === category
+              (book) => book.category === category,
             ).length;
 
             return (

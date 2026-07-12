@@ -27,12 +27,12 @@ const BookContainer = ({ books }: BookContainerProps) => {
   useEffect(() => {
     const getBooks = async () => {
       const res = await fetch(
-        `http://localhost:5000/books?search=${search}&category=${category}&price=${price}`,
+        `http://localhost:5000/books?search=${search}&category=${category}&price=${price}&limit=100`,
       );
 
       const data = await res.json();
 
-      setAllBooks(data);
+      setAllBooks(Array.isArray(data) ? data : (data.books ?? []));
     };
 
     getBooks();

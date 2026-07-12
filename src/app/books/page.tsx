@@ -7,7 +7,8 @@ const AllBooksPage = async () => {
     cache: "no-store",
   });
 
-  const books: Book[] = await res.json();
+  const data = await res.json();
+  const books: Book[] = Array.isArray(data) ? data : (data.books ?? []);
 
   return (
     <section
