@@ -3,6 +3,7 @@
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import { useState } from "react";
+import { toast,  } from "sonner";
 
 const AddBooks = () => {
   const [bookData, setBookData] = useState({
@@ -34,7 +35,7 @@ const AddBooks = () => {
 
     console.log(data);
     if (data.insertedId) {
-      alert("Book Added Successfully");
+      toast.success("Book Updated Successfully");
 
       setBookData({
         title: "",

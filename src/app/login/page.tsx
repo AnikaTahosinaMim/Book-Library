@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff, BookOpen } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { redirect, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const SignInPages = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -29,7 +30,7 @@ const SignInPages = () => {
     if (error) {
       console.log(error);
     } else {
-      alert("signin succesfully");
+      toast("signin succesfully");
       router.push("/")
     }
   };
@@ -43,7 +44,7 @@ const SignInPages = () => {
       console.log(error);
     }
     else{
-        alert("login with google")
+        toast("login with google")
     }
   };
 

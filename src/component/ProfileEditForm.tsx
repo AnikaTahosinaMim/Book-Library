@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { User, Image as ImageIcon, Pencil, Check, X } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 type ProfileUser = {
   id: string;
@@ -37,7 +38,7 @@ const ProfileEditForm = ({ user }: { user: ProfileUser }) => {
 
     if (error) {
       console.log(error);
-      alert("Profile update failed");
+      toast("Profile update failed");
     } else {
       setEditing(false);
       router.refresh();

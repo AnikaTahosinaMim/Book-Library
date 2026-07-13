@@ -4,6 +4,7 @@ import Link from "next/link";
 import { User, Mail, Lock, Eye, EyeOff, BookOpen, Image } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const SignUpPages = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "", image: "" });
@@ -28,7 +29,7 @@ const SignUpPages = () => {
     if (error) {
       console.log(error);
     } else {
-      alert("signUp succesfully");
+      toast("signUp succesfully");
       router.push("/");
     }
 
