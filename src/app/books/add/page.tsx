@@ -22,7 +22,7 @@ const AddBooks = () => {
     const { data: token, error } = await authClient.token();
     console.log(token?.token, "or", error);
 
-    const res = await fetch("http://localhost:5000/books", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/books`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

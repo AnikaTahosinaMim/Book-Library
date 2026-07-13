@@ -13,7 +13,7 @@ const CategoryBooks = async ({ params }: Props) => {
   const { category } = await params;
 
   const res = await fetch(
-    `http://localhost:5000/books?category=${category}&limit=100`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/books?category=${category}&limit=100`,
     {
       cache: "no-store",
     },

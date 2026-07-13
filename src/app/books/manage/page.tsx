@@ -7,7 +7,7 @@ type Props = {
 };
 
 const ManageBooks = async () => {
-  const res = await fetch("http://localhost:5000/books");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/books`);
   const data = await res.json();
   const books: Book[] = Array.isArray(data) ? data : (data.books ?? []);
   console.log(data);

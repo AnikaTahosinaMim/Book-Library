@@ -47,7 +47,7 @@ const UpdateBookForm = ({ book }: Props) => {
     console.log("Sending update:", book._id, updatedBook);
 
     try {
-      const res = await fetch(`http://localhost:5000/books/${book._id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/books/${book._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

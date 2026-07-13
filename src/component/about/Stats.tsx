@@ -2,7 +2,7 @@ import { Book } from "@/types/book";
 import { BookOpen, FolderOpen, Star, Package } from "lucide-react";
 
 const Stats = async () => {
-  const res = await fetch("http://localhost:5000/books", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/books`, {
     cache: "no-store",
   });
 

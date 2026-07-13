@@ -34,12 +34,15 @@ const ManageBook = ({ data }: Props) => {
     if (!result.isConfirmed) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/books/${id}`, {
-        method: "DELETE",
-        headers: {
-          authorization: `Bearer ${token?.token}`,
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/books/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            authorization: `Bearer ${token?.token}`,
+          },
         },
-      });
+      );
 
       const data = await res.json();
 
@@ -71,7 +74,7 @@ const ManageBook = ({ data }: Props) => {
   useEffect(() => {
     const getBooks = async () => {
       const res = await fetch(
-        `http://localhost:5000/books?page=${page}&limit=4`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/books?page=${page}&limit=4`,
       );
 
       const data = await res.json();

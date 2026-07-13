@@ -27,7 +27,7 @@ const BookContainer = ({ books }: BookContainerProps) => {
   useEffect(() => {
     const getBooks = async () => {
       const res = await fetch(
-        `http://localhost:5000/books?search=${search}&category=${category}&price=${price}&limit=100`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/books?search=${search}&category=${category}&price=${price}&limit=100`,
       );
 
       const data = await res.json();
