@@ -4,6 +4,7 @@ import { Book } from "@/types/book";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 type Props = {
   book: Book;
@@ -14,6 +15,8 @@ const UpdateBookForm = ({ book }: Props) => {
   const router = useRouter();
 
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+    const { data: token, error } = await authClient.token();
+    console.log(token?.token, "or", error);
     e.preventDefault();
     setLoading(true);
 
@@ -48,6 +51,7 @@ const UpdateBookForm = ({ book }: Props) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token?.token}`,
         },
         body: JSON.stringify(updatedBook),
       });
@@ -62,13 +66,15 @@ const UpdateBookForm = ({ book }: Props) => {
       console.log("Response data:", data);
 
       if (data.modifiedCount > 0) {
+        console.log("Redirecting...");
+        router.push("/");
+
         Swal.fire({
           icon: "success",
           title: "Book Updated Successfully",
           background: "#201b15",
           color: "#ffffff",
         });
-        router.push("/books/manage");
       } else {
         Swal.fire({
           icon: "info",

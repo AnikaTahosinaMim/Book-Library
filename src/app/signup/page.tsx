@@ -1,37 +1,35 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { User, Mail, Lock, Eye, EyeOff, BookOpen } from "lucide-react";
+import { User, Mail, Lock, Eye, EyeOff, BookOpen, Image } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 const SignUpPages = () => {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({ name: "", email: "", password: "", image: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-const router = useRouter();
-
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    console.log(form);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     // TODO: connect to your auth endpoint
-    setTimeout(() => setLoading(false), 800);
     const { data, error } = await authClient.signUp.email({
       name: form.name,
       email: form.email,
       password: form.password,
+      image: form.image,
     });
     if (error) {
       console.log(error);
     } else {
       alert("signUp succesfully");
-      router.push("/")
+      router.push("/");
     }
 
     setLoading(false);
@@ -86,6 +84,19 @@ const router = useRouter();
               onChange={handleChange}
               placeholder="Email address"
               required
+              className="w-full bg-transparent text-sm text-white placeholder:text-white/30 outline-none"
+            />
+          </div>
+
+          {/* Image URL */}
+          <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-3 transition hover:border-[#d9a441]/40">
+            <Image size={16} className="text-white/40" />
+            <input
+              type="url"
+              name="image"
+              value={form.image}
+              onChange={handleChange}
+              placeholder="Profile image URL (optional)"
               className="w-full bg-transparent text-sm text-white placeholder:text-white/30 outline-none"
             />
           </div>

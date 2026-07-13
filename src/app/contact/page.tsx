@@ -1,6 +1,44 @@
+"use client";
+
 import { Mail, MapPin, Phone, Clock } from "lucide-react";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 const ContactSection = () => {
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    // TODO: connect to your backend/email endpoint if needed
+    console.log("Contact form data:", form);
+
+    Swal.fire({
+      icon: "success",
+      title: "Message Sent!",
+      text: "Thanks for reaching out, we'll get back to you soon.",
+      background: "#201b15",
+      color: "#ffffff",
+      confirmButtonColor: "#d9a441",
+    });
+
+    setForm({ name: "", email: "", subject: "", message: "" });
+    setLoading(false);
+  };
+
   return (
     <section
       className="relative overflow-hidden py-24"
@@ -91,19 +129,30 @@ const ContactSection = () => {
 
           {/* Right */}
 
-          <form className="rounded-[35px] border border-white/10 bg-white/[0.05] p-8 backdrop-blur-xl">
+          <form
+            onSubmit={handleSubmit}
+            className="rounded-[35px] border border-white/10 bg-white/[0.05] p-8 backdrop-blur-xl"
+          >
 
             <div className="grid gap-6 md:grid-cols-2">
 
               <input
                 type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
                 placeholder="Your Name"
+                required
                 className="rounded-xl border border-white/10 bg-transparent p-4 text-white outline-none placeholder:text-white/40 focus:border-[#d9a441]"
               />
 
               <input
                 type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
                 placeholder="Your Email"
+                required
                 className="rounded-xl border border-white/10 bg-transparent p-4 text-white outline-none placeholder:text-white/40 focus:border-[#d9a441]"
               />
 
@@ -111,20 +160,30 @@ const ContactSection = () => {
 
             <input
               type="text"
+              name="subject"
+              value={form.subject}
+              onChange={handleChange}
               placeholder="Subject"
+              required
               className="mt-6 w-full rounded-xl border border-white/10 bg-transparent p-4 text-white outline-none placeholder:text-white/40 focus:border-[#d9a441]"
             />
 
             <textarea
+              name="message"
+              value={form.message}
+              onChange={handleChange}
               rows={6}
               placeholder="Write your message..."
+              required
               className="mt-6 w-full rounded-xl border border-white/10 bg-transparent p-4 text-white outline-none placeholder:text-white/40 focus:border-[#d9a441]"
             />
 
             <button
-              className="mt-8 w-full rounded-xl bg-[#d9a441] py-4 font-bold text-[#14110d] transition hover:bg-[#c9972f]"
+              type="submit"
+              disabled={loading}
+              className="mt-8 w-full rounded-xl bg-[#d9a441] py-4 font-bold text-[#14110d] transition hover:bg-[#c9972f] disabled:opacity-60"
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </button>
 
           </form>

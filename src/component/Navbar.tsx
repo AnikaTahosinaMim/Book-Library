@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Menu, X, BookOpen, Search } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -53,6 +54,7 @@ export default function Navbar() {
 
   const userName = session?.user?.name || "Account";
   const userEmail = session?.user?.email || "";
+  const userImage = session?.user?.image || "";
   const userInitial = userName.charAt(0).toUpperCase();
 
   return (
@@ -131,9 +133,19 @@ export default function Navbar() {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setShowDropdown(!showDropdown)}
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-[#d9a441] text-black font-semibold transition hover:scale-105"
+                className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-[#d9a441] font-semibold text-black transition hover:scale-105"
               >
-                {userInitial}
+                {userImage ? (
+                  <Image
+                    src={userImage}
+                    alt={userName}
+                    width={44}
+                    height={44}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  userInitial
+                )}
               </button>
 
               {showDropdown && (
