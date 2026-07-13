@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -17,11 +18,14 @@ const AddBooks = () => {
   });
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const { data: token, error } = await authClient.token();
+    console.log(token.token, "or", error);
 
     const res = await fetch("http://localhost:5000/books", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization:`Bearer ${token.token}`
       },
       body: JSON.stringify(bookData),
     });
