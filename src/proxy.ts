@@ -10,10 +10,11 @@ export async function proxy(request: NextRequest) {
   console.log("SESSION:", session);
 
   if (!session) {
-    return NextResponse.redirect(new URL("/signin", request.url));
+    return NextResponse.redirect(new URL("/login", request.url));
   }
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/books/add", "/books/manage","/profile"],
+  matcher: ["/books/add", "/books/manage", "/profile", "/about", "/contact"],
 };
