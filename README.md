@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📚 BookNest - Book Management System
 
-## Getting Started
+A modern and responsive **Book Management System** built with **Next.js**, **Express.js**, and **MongoDB**. This application allows users to browse, search, manage, and organize books with a clean and user-friendly interface.
 
-First, run the development server:
+---
+
+## 🌐 Live Demo
+
+* **Frontend:** `https://your-frontend-url.vercel.app`
+* **Backend:** `https://your-backend-url.vercel.app`
+
+> Replace the URLs above with your deployed project links.
+
+---
+
+## 🚀 Features
+
+* 📖 View all available books
+* ➕ Add a new book
+* ✏️ Update existing book information
+* 🗑️ Delete books
+* 🔍 Search books by title
+* 🏷️ Filter books by category
+* 💰 Sort books by price
+* 📄 Pagination for better browsing
+* 📱 Fully responsive design
+* ⚡ Fast and modern UI built with Next.js
+* 🌐 RESTful API with Express.js
+* 🗄️ MongoDB database integration
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+
+### Backend
+
+* Node.js
+* Express.js
+
+### Database
+
+* MongoDB
+
+### Tools
+
+* Git
+* GitHub
+* Vercel
+
+
+
+
+---
+
+## ⚙️ Installation
+
+### Clone the repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/book-management.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Frontend
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd client
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Backend
 
-## Learn More
+```bash
+cd server
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🎯 Future Improvements
 
-## Deploy on Vercel
+* User Authentication
+* Wishlist
+* Book Reviews & Ratings
+* Favorite Books
+* Dark Mode
+* Admin Dashboard
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 👩‍💻 Author
+
+**Tahosina Mim**
+
+GitHub: https://github.com/anika557
+
+---
+
+## ⭐ Support
+
+If you like this project, don't forget to give it a ⭐ on GitHub.
