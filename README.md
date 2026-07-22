@@ -6,7 +6,7 @@ A modern and responsive **Book Management System** built with **Next.js**, **Exp
 
 ## 🌐 Live Demo
 
-* **Frontend:** `https://scic-assignment-amber.vercel.app/`
+* **Frontend:** https://scic-assignment-amber.vercel.app/
 
 
 ---
