@@ -6,10 +6,8 @@ A modern and responsive **Book Management System** built with **Next.js**, **Exp
 
 ## 🌐 Live Demo
 
-* **Frontend:** `https://your-frontend-url.vercel.app`
-* **Backend:** `https://your-backend-url.vercel.app`
+* **Frontend:** `https://scic-assignment-amber.vercel.app/`
 
-> Replace the URLs above with your deployed project links.
 
 ---
 
